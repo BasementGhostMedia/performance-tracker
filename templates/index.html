@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .category-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .category-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 20px;
+            margin-bottom: 0.5rem;
+        }
+        .progress {
+            background-color: #4caf50;
+            height: 100%;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+        }
+        .badges {
+            margin-top: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #2196f3;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            margin-right: 0.3rem;
+            font-size: 0.8rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Personal Wellness Tracker</h1>
+    <p>Select a category to continue your journey. Your progress and badges are shown below.</p>
+    {% for cat in categories_info %}
+    <div class="category-card">
+        <div class="category-title">{{ cat.name }}</div>
+        <div class="progress-bar">
+            <div class="progress" style="width: {{ cat.percent_complete }}%">{{ cat.percent_complete }}%</div>
+        </div>
+        {% if cat.badges %}
+        <div class="badges">
+            {% for badge in cat.badges %}
+            <span class="badge">{{ badge }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if cat.next_level %}
+        <a class="btn" href="{{ url_for('survey', category=cat.key) }}">Take Survey (Level {{ cat.next_level }})</a>
+        {% else %}
+        <div>All levels completed!</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</body>
+</html>
